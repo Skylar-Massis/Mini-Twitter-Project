@@ -1,5 +1,6 @@
 package minitwitter;
 
+//This class is used to lookup users which is used in some methods.
 public class UserLookupVisitor implements Visitor {
     private final String targetId;
     private User found;

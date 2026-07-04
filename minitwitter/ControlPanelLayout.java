@@ -4,6 +4,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+//This class is a singleton that there is only 1 of. This is used because there is no need to have more than 1 of these.
+// And having more than 1 would probably not be good.
 public final class ControlPanelLayout extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ControlPanelLayout.class.getName());

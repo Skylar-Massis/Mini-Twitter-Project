@@ -2,7 +2,7 @@ package minitwitter;
 
 import javax.swing.DefaultListModel;
 
-//This is the UserView object which displays the view for the user
+//This is the UserView object which displays the view for the user, it uses observers as well to update users.
 public class UserViewPanel extends javax.swing.JFrame implements Observer {
     private final User user;
     private final UserGroup root;
