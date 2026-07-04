@@ -32,11 +32,13 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="showTotalMessagesButton" pref="200" max="32767" attributes="0"/>
                           <Component id="showTotalUsersButton" max="32767" attributes="0"/>
+                          <Component id="LastUpdatedUserButton" pref="200" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="showPercentagePositiveButton" pref="200" max="32767" attributes="0"/>
                           <Component id="showGroupTotalButton" max="32767" attributes="0"/>
+                          <Component id="ValidateUsersButton" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -62,7 +64,8 @@
           <Group type="102" attributes="0">
               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Component id="jScrollPane2" alignment="0" pref="405" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="addUserButton" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="userCreationTextField" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
@@ -85,10 +88,14 @@
                           <Component id="showTotalMessagesButton" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="LastUpdatedUserButton" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="ValidateUsersButton" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="OutputBox" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane2" pref="390" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -175,9 +182,22 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="OutputBox">
+    </Component>
+    <Component class="javax.swing.JButton" name="LastUpdatedUserButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Outputbox here"/>
+        <Property name="text" type="java.lang.String" value="Show Last Updated User"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LastUpdatedUserButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="ValidateUsersButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Validate All Users"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ValidateUsersButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

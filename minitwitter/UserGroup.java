@@ -7,11 +7,19 @@ import java.util.List;
 public final class UserGroup implements UserComponent{
     private String GroupID;
     private List<UserComponent> children = new ArrayList<>();
-    
-    public UserGroup(){}
-    
+    private final long creationTime;
+
+    public UserGroup(){
+        this.creationTime = System.currentTimeMillis();
+    }
+
     public UserGroup(String name){
+        this();
         this.setID(name);
+    }
+
+    public long getCreationTime() {
+        return creationTime;
     }
     
     @Override

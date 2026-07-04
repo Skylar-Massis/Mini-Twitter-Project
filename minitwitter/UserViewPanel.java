@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package minitwitter;
 
 import javax.swing.DefaultListModel;
@@ -12,23 +8,27 @@ public class UserViewPanel extends javax.swing.JFrame implements Observer {
     private final DefaultListModel<String> feedList = new DefaultListModel<>();
     private final DefaultListModel<String> followingList = new DefaultListModel<>();
 
-    
     public UserViewPanel(User user, UserGroup root) {
         this.user = user;
         this.root = root;
         initComponents();
-        
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        creationTimeLabel.setText("Created: " + new java.util.Date(user.getCreationTime()));
+        lastUpdateTimeLabel.setText("Last updated: " + new java.util.Date(user.getLastUpdateTime()));
+
         for (String msg : user.getFeed()) feedList.addElement(msg);
         for (User f : user.getFollowing()) followingList.addElement(f.getID());
-        
+
         user.addObserver(this);
     }
-    
+
     @Override
     public void update(String message) {
         feedList.addElement(message);
+        lastUpdateTimeLabel.setText("Last updated: " + new java.util.Date(user.getLastUpdateTime()));
     }
-    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UserViewPanel.class.getName());
 
     /**
@@ -50,6 +50,8 @@ public class UserViewPanel extends javax.swing.JFrame implements Observer {
         userFeed = new javax.swing.JList<>(feedList);
         userInput = new javax.swing.JTextField();
         tweetInput = new javax.swing.JTextField();
+        creationTimeLabel = new javax.swing.JLabel();
+        lastUpdateTimeLabel = new javax.swing.JLabel();
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
@@ -83,7 +85,9 @@ public class UserViewPanel extends javax.swing.JFrame implements Observer {
                         .addComponent(userInput, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(followUserButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                    .addComponent(creationTimeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lastUpdateTimeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(144, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -101,7 +105,11 @@ public class UserViewPanel extends javax.swing.JFrame implements Observer {
                     .addComponent(tweetInput))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(creationTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lastUpdateTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -152,12 +160,14 @@ public class UserViewPanel extends javax.swing.JFrame implements Observer {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel creationTimeLabel;
     private javax.swing.JButton followUserButton;
     private javax.swing.JList<String> followedUsersList;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JLabel lastUpdateTimeLabel;
     private javax.swing.JButton postTweetButton;
     private javax.swing.JTextField tweetInput;
     private javax.swing.JList<String> userFeed;

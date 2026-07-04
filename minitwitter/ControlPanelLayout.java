@@ -1,7 +1,5 @@
 package minitwitter;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -52,6 +50,8 @@ public final class ControlPanelLayout extends javax.swing.JFrame {
         showGroupTotalButton = new javax.swing.JButton();
         showTotalMessagesButton = new javax.swing.JButton();
         OutputBox = new javax.swing.JLabel();
+        LastUpdatedUserButton = new javax.swing.JButton();
+        ValidateUsersButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,7 +79,11 @@ public final class ControlPanelLayout extends javax.swing.JFrame {
         showTotalMessagesButton.setText("Show Messages Total");
         showTotalMessagesButton.addActionListener(this::showTotalMessagesButtonActionPerformed);
 
-        OutputBox.setText("Outputbox here");
+        LastUpdatedUserButton.setText("Show Last Updated User");
+        LastUpdatedUserButton.addActionListener(this::LastUpdatedUserButtonActionPerformed);
+
+        ValidateUsersButton.setText("Validate All Users");
+        ValidateUsersButton.addActionListener(this::ValidateUsersButtonActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,11 +97,13 @@ public final class ControlPanelLayout extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(showTotalMessagesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(showTotalUsersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(showTotalUsersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(LastUpdatedUserButton, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(showPercentagePositiveButton, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(showGroupTotalButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(showGroupTotalButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ValidateUsersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(groupCreationTextField)
@@ -115,6 +121,7 @@ public final class ControlPanelLayout extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -134,9 +141,12 @@ public final class ControlPanelLayout extends javax.swing.JFrame {
                             .addComponent(showPercentagePositiveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(showTotalMessagesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(LastUpdatedUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ValidateUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(OutputBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -198,6 +208,21 @@ public final class ControlPanelLayout extends javax.swing.JFrame {
         OutputBox.setText(String.format("Positive messages: %.1f%%", visitor.getPositivePercentage()));
     }//GEN-LAST:event_showPercentagePositiveButtonActionPerformed
 
+    private void LastUpdatedUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LastUpdatedUserButtonActionPerformed
+            LastUpdatedUserVisitor visitor = new LastUpdatedUserVisitor();
+        root.accept(visitor);
+        User lastUser = visitor.getLastUpdatedUser();
+        String result = (lastUser != null) ? "Last updated user: " + lastUser.getID() : "No users found.";
+        OutputBox.setText(result);
+    }//GEN-LAST:event_LastUpdatedUserButtonActionPerformed
+
+    private void ValidateUsersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ValidateUsersButtonActionPerformed
+        IDValidationVisitor visitor = new IDValidationVisitor();
+        root.accept(visitor);
+        String result = visitor.isValid() ? "All IDs are valid." : "Invalid IDs found (duplicates or spaces).";
+        javax.swing.JOptionPane.showMessageDialog(this, result);
+    }//GEN-LAST:event_ValidateUsersButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -225,13 +250,14 @@ public final class ControlPanelLayout extends javax.swing.JFrame {
     
     private DefaultTreeModel model;
     DefaultMutableTreeNode selected = new DefaultMutableTreeNode();
-    private UserComponent selectedComponent = (UserComponent) selected.getUserObject();
     private TreePath selPath;
     private final UserGroup root = new UserGroup("Root");
     DefaultMutableTreeNode roottree = new DefaultMutableTreeNode(root, true);
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton LastUpdatedUserButton;
     private javax.swing.JLabel OutputBox;
     private javax.swing.JButton UserViewButton;
+    private javax.swing.JButton ValidateUsersButton;
     private javax.swing.JButton addGroupButton;
     private javax.swing.JButton addUserButton;
     private javax.swing.JTextField groupCreationTextField;

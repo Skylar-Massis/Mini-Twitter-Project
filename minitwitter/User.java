@@ -10,7 +10,26 @@ public final class User implements UserComponent, Subject{
     private List<User> followedBy = new ArrayList<>();
     private List<Observer> observers = new ArrayList<>();
     private List<String> feed = new ArrayList<>();
+    private final long creationTime;
+    private long lastUpdateTime;
 
+    public User(){
+        this.creationTime = System.currentTimeMillis();
+        this.lastUpdateTime = this.creationTime;
+    }
+
+    public User(String name){
+        this();
+        this.setID(name);
+    }
+
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
     public List<User> getFollowedBy() {
         return followedBy;
     }
@@ -18,25 +37,20 @@ public final class User implements UserComponent, Subject{
     public void setFollowedBy(List<User> followedBy) {
         this.followedBy = followedBy;
     }
-
-    public User(){}
-    
-    public User(String name){
-        this.setID(name);
-    }
     
     
     public void postTweet(String message){
-    Tweet t = new Tweet();
-    t.setTweetMessage(message);
-    feed.add(t.getTweetMessage());
-    notifyObservers(message);
-    for (User follower : followedBy) {
-        follower.getFeed().add(message);
-        follower.notifyObservers(message);
+        Tweet t = new Tweet();
+        t.setTweetMessage(message);
+        feed.add(t.getTweetMessage());
+        lastUpdateTime = System.currentTimeMillis();
+        notifyObservers(message);
+        for (User follower : followedBy) {
+            follower.getFeed().add(message);
+            follower.lastUpdateTime = System.currentTimeMillis();
+            follower.notifyObservers(message);
+        }
     }
-    }
-    
     public List<Tweet> getTweets(){
         return tweets;
     }

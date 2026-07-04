@@ -3,6 +3,7 @@ package minitwitter;
 import java.util.Arrays;
 import java.util.List;
 
+// Visitor to count percentages of positive messages
 public class PositiveMessagesVisitor implements Visitor {
     private static final List<String> POSITIVE_WORDS = Arrays.asList(
         "good", "great", "excellent", "awesome", "fantastic",
@@ -12,6 +13,7 @@ public class PositiveMessagesVisitor implements Visitor {
     private int totalMessages = 0;
     private int positiveMessages = 0;
 
+    //Visits user and checks messages to see if they contain anything in the list
     @Override
     public void visitUser(User u) {
         for (String message : u.getFeed()) {
@@ -23,7 +25,7 @@ public class PositiveMessagesVisitor implements Visitor {
     }
 
     @Override
-    public void visitGroup(UserGroup g) { }
+    public void visitGroup(UserGroup g) {}
 
     private boolean isPositive(String message) {
         String lower = message.toLowerCase();
