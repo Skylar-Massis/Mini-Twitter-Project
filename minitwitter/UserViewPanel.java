@@ -2,6 +2,7 @@ package minitwitter;
 
 import javax.swing.DefaultListModel;
 
+//Class for the admin panel. This is a singleton. The constructor is private.
 public class UserViewPanel extends javax.swing.JFrame implements Observer {
     private final User user;
     private final UserGroup root;

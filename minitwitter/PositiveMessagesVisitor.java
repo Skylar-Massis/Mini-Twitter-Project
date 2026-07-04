@@ -27,6 +27,7 @@ public class PositiveMessagesVisitor implements Visitor {
     @Override
     public void visitGroup(UserGroup g) {}
 
+    //Checks if a string contains a positive word using enhanced for loop
     private boolean isPositive(String message) {
         String lower = message.toLowerCase();
         for (String word : POSITIVE_WORDS) {
@@ -36,7 +37,7 @@ public class PositiveMessagesVisitor implements Visitor {
         }
         return false;
     }
-
+    //Calculates the percentage for positive words
     public double getPositivePercentage() {
         if (totalMessages == 0) {
             return 0.0;

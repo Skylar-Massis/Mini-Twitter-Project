@@ -18,13 +18,13 @@ public class IDValidationVisitor implements Visitor {
     public void visitGroup(UserGroup g) {
         checkId(g.getID());
     }
-
+    // Checks if the ID is valid or not
     private void checkId(String id) {
         if (id == null || id.contains(" ")) {
             valid = false;
         }
         if (!seenIds.add(id)) {
-            valid = false; // add() returns false if it was already present -> duplicate
+            valid = false;
         }
     }
 

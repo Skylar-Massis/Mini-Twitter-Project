@@ -1,5 +1,6 @@
 package minitwitter;
 
+//Visitor to count total number of messages
 public class TotalMessagesVisitor implements Visitor {
     public int total = 0;
 
